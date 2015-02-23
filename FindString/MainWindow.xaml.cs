@@ -35,4 +35,13 @@ namespace FindString
 			this.IncidentDataGrid.ItemsSource = this.viewModel.FileObjects;
 		}
 	}
+
+	public class Command : ICommand
+	{
+		public Command(Action<object> action) { this.action = action; }
+		public bool CanExecute(object parameter) { return true; }
+		public void Execute(object parameter) { action(parameter); }
+		public event EventHandler CanExecuteChanged { add { } remove { } }
+		private Action<object> action;
+	}
 }
