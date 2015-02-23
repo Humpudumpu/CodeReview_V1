@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
 
-namespace FindString
+namespace CodeReview
 {
 	public class MainWindowViewModel
 	{

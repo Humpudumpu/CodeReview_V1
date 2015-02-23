@@ -7,7 +7,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 
 
-namespace FindString
+namespace CodeReview
 {
 	public class CodeReview
 	{

@@ -14,7 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 
-namespace FindString
+namespace CodeReview
 {
 	/// <summary>
 	/// Interaction logic for MainWindow.xaml

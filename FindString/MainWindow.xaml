@@ -1,4 +1,4 @@
-﻿<Window x:Class="FindString.MainWindow"
+﻿<Window x:Class="CodeReview.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="CodeReview" Height="700" Width="700"

@@ -10,7 +10,7 @@ using System.Diagnostics;
 
 using System.Threading.Tasks;
 
-namespace FindString
+namespace CodeReview
 {
 	public class FindText
 	{
