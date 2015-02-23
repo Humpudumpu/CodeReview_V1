@@ -15,9 +15,12 @@ namespace FindString
 		public event FileListUpdateHandler OnFileListUpdate; 
 
 		public List<FileObject> fileList;
+		private TFUtility tf;
+		
 		public CodeReview()
 		{
 			fileList = new List<FileObject>();
+			tf = new TFUtility();
 		}
 
 		public void GetIncident(int incident)
@@ -30,6 +33,8 @@ namespace FindString
 			//fileList.Add(new FileObject("filename5", "devBranch5", "comments5", 50, 56, "Author5"));
 			//fileList.Add(new FileObject("filename6", "devBranch6", "comments6", 60, 66, "Author6"));
 			//fileList.Add(new FileObject("filename6", "devBranch7", "comments7", 70, 76, "Author7"));
+
+			tf.GetChangesFileList(incident);
 
 			if (OnFileListUpdate == null)
 				return;
