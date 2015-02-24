@@ -14,12 +14,11 @@
               HorizontalAlignment="Left"
               VerticalAlignment="Top" CanUserAddRows="False">
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding Path=DevBranch}" Header ="DevBranch" MinWidth="50" Width="10*"/>
-                <DataGridTextColumn Binding="{Binding Path=Filename}" Header="Filename" Width="40*"/>
+                <DataGridTextColumn Binding="{Binding Path=Filename}" Header="Filename" Width="30*"/>
                 <DataGridTextColumn Binding="{Binding Path=CheckOutChangeSet}" Header="Checked Out" Width="5*"/>
                 <DataGridTextColumn Binding="{Binding Path=CheckInChangeSet}" Header="Checked In" Width="5*"/>
                 <DataGridTextColumn Binding="{Binding Path=DevBranch}" Header ="DevBranch" Width="5*"/>
-                <DataGridTextColumn Binding="{Binding Path=Comments}" Header ="Comments" Width="40*"/>
+                <DataGridTextColumn Binding="{Binding Path=Comments}" Header ="Comments" Width="45*"/>
                 <DataGridTextColumn Binding="{Binding Path=Author}" Header="Author" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
