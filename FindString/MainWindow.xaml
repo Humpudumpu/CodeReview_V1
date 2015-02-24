@@ -12,7 +12,7 @@
         <DataGrid Grid.Row="0" AutoGenerateColumns="false"
               Name="IncidentDataGrid"
               HorizontalAlignment="Left"
-              VerticalAlignment="Top" CanUserAddRows="False">
+              VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True">
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Filename}" Header="Filename" Width="30*"/>
                 <DataGridTextColumn Binding="{Binding Path=CheckOutChangeSet}" Header="Checked Out" Width="5*"/>
