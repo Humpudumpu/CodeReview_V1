@@ -69,9 +69,7 @@ namespace CodeReview
 			var service = tfs.GetService<VersionControlServer>();
 			List<Changeset>history = service.QueryHistory("$/USCAN/Product/5.0SON/Incidents/72382", RecursionType.Full).ToList<Changeset>();
 			string item = "$/USCAN/Product/5.0SON/Incidents/72382";
-			ItemSpec i = new ItemSpec("$/USCAN/Product/5.0SON/5.0dev", RecursionType.None);
-			ItemSpec i2 = new ItemSpec(item, RecursionType.None);
-			ChangesetMerge[] mergedChangeSet = service.QueryMerges(i, VersionSpec.Latest, i2, VersionSpec.Latest, null, null);
+			ChangesetMerge[] mergedChangeSet = service.QueryMerges(new ItemSpec("$/USCAN/Product/5.0SON/5.0dev", RecursionType.None), VersionSpec.Latest, new ItemSpec(item, RecursionType.None), VersionSpec.Latest, null, null);
 
 			foreach(Changeset cs in history)
 			{
