@@ -31,7 +31,7 @@ namespace CodeReview
 		{
 			CodeReview cr = new CodeReview();
 			this.viewModel = new MainWindowViewModel(cr);
-			cr.GetIncident(1234);
+			cr.GetIncident(68103);
 			this.IncidentDataGrid.ItemsSource = this.viewModel.FileObjects;
 		}
 	}

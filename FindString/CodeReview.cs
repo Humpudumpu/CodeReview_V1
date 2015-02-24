@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
+using PVCSTools;
 
 
 namespace CodeReview
@@ -36,6 +37,7 @@ namespace CodeReview
 
 			tf.GetChangesFileList(incident);
 
+			PopulateFileObjects(tf.GetAssociations(incident));
 			if (OnFileListUpdate == null)
 				return;
 			FileListUpdateArgs args = new FileListUpdateArgs(fileList);
@@ -45,6 +47,17 @@ namespace CodeReview
 		private void Add(FileObject f)
 		{
 			fileList.Add(f);
+		}
+
+		private void PopulateFileObjects(List<ITeamTrack.Association> associations)
+		{
+			if (associations.Count == 0)
+				return;
+
+			foreach(ITeamTrack.Association association in associations)
+			{
+				fileList.Add(new FileObject(association.file, "", association.logMessage, association.checkInRevision, association.checkOutRevision, association.author));
+			}
 		}
 	}
 

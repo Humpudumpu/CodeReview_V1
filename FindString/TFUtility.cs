@@ -5,21 +5,35 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using System.Diagnostics;
+using PVCSTools;
 
 namespace CodeReview
 {
 	public class TFUtility
 	{
 		string filename = String.Empty;
+		const string user = "CAN10TFSBridgeSvc";
+		const string password = "Canadatfs.2012";
+		
+
+		//PCVSTools members
+		TeamTrack teamTrack;
+		bool LoggedIn { get; set; }
 
 		public TFUtility()
 		{
 			filename = Path.Combine(Environment.GetEnvironmentVariable("VS110COMNTOOLS"), "tf.exe");
+			teamTrack = new TeamTrack();
+			LoggedIn = false;
 		}
 
-		public int GetChangesFileList(int incidentNo)
+		public List<ITeamTrack.Association> GetAssociations(uint incidentNo)
 		{
-			return 0;
+			
+			if (!LoggedIn)
+				LoggedIn = teamTrack.Login(user, password);
+
+			return teamTrack.GetAssociations(incidentNo);
 		}
 
 		public T RunTF<T>(string arguments, bool redirectOutput = false, int waitMinutes = 2)
