@@ -15,7 +15,7 @@ namespace CodeReview
 		public delegate void FileListUpdateHandler(object sender, FileListUpdateArgs e);
 		public event FileListUpdateHandler OnFileListUpdate; 
 
-		public List<FileObject> fileList;
+		private List<FileObject> fileList;
 		private TFUtility tf;
 		
 		public CodeReview()
