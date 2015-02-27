@@ -14,7 +14,7 @@
               HorizontalAlignment="Left"
               VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Extended">
             <DataGrid.InputBindings>
-                <KeyBinding Key="d" Modifiers="Control" Command="{Binding FileDiff}" CommandParameter="{Binding ElementName=IncidentDataGrid, Path=SelectedItem}"/>        
+                <KeyBinding Key="d" Modifiers="Control" Command="{Binding FileDiff}" CommandParameter="{Binding ElementName=IncidentDataGrid, Path=SelectedItems}"/>        
             </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Filename}" Header="Filename" Width="30*"/>

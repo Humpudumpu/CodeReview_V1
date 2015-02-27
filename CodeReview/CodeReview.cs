@@ -67,16 +67,35 @@ namespace CodeReview
 			FirePropertyChanged("FileList");
 		}
 
-		public void GetFileDifference(Object ob)
+		public void GetFileDifference(object ob)
 		{
 			List<FileObject> associations = ((IEnumerable)ob).Cast<FileObject>().ToList();
-			string testing = String.Empty;
 			string argument = String.Empty;
-			if (associations.Count == 0)
-				argument = String.Format("difference {0} /version:C{1}~C{2} /format:visual", associations[0].Filename, associations[0].CheckOutChangeSet, associations[0].CheckInChangeSet);
+			FileObject association = new FileObject();
+			if (associations.Count > 1)
+			{
+				
+				FileObject minCheckedOutFile = associations.Aggregate((c, d) => Convert.ToInt32(c.CheckOutChangeSet) < Convert.ToInt32(d.CheckOutChangeSet) ? c : d);
+				FileObject maxCheckedInFile = associations.Aggregate((c, d) => Convert.ToInt32(c.CheckInChangeSet) > Convert.ToInt32(d.CheckInChangeSet) ? c : d);
+				if (minCheckedOutFile.Filename != maxCheckedInFile.Filename)
+				{
+					//status message;
+					Console.WriteLine("Choose same file");
+					return;
+				}
+				association.Filename = minCheckedOutFile.Filename;
+				association.CheckOutChangeSet = minCheckedOutFile.CheckOutChangeSet;
+				association.CheckInChangeSet = maxCheckedInFile.CheckInChangeSet;
+			}
 			else
-				testing = "multiple";
-			//tf.RunTF<int>(argument, false);
+			{
+				association.CheckOutChangeSet = associations[0].CheckOutChangeSet;
+				association.CheckInChangeSet = associations[0].CheckInChangeSet;
+				association.Filename = associations[0].Filename;
+			}
+
+			argument = String.Format("difference {0} /version:C{1}~C{2} /format:visual", association.Filename, association.CheckOutChangeSet, association.CheckInChangeSet);
+			tf.RunTF<int>(argument, false);
 		}
 	}
 }
