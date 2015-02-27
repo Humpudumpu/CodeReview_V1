@@ -22,16 +22,20 @@ namespace CodeReview
 	public partial class MainWindow : Window
 	{
 		private MainWindowViewModel viewModel;
+		public CodeReview cr;
+
 		public MainWindow()
 		{
 			InitializeComponent();
+
+			InitializeView();
 		}
 
-		private void Button_Click(object sender, RoutedEventArgs e)
+		private void InitializeView()
 		{
-			CodeReview cr = new CodeReview();
+			cr = new CodeReview();
 			this.viewModel = new MainWindowViewModel(cr);
-			cr.GetIncident(68103);
+			this.DataContext = this.viewModel;
 			this.IncidentDataGrid.ItemsSource = this.viewModel.FileObjects;
 		}
 	}

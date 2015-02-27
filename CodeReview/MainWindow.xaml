@@ -6,22 +6,33 @@
         WindowStyle="SingleBorderWindow">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="90*"/>
-            <RowDefinition Height="10*"/>
+            <RowDefinition Height="95*"/>
+            <RowDefinition Height="5*"/>
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" AutoGenerateColumns="false"
               Name="IncidentDataGrid"
               HorizontalAlignment="Left"
-              VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True">
+              VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Extended">
+            <DataGrid.InputBindings>
+                <KeyBinding Key="d" Modifiers="Control" Command="{Binding FileDiff}" CommandParameter="{Binding ElementName=IncidentDataGrid, Path=SelectedItem}"/>        
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Binding="{Binding Path=Filename}" Header="Filename" Width="30*"/>
                 <DataGridTextColumn Binding="{Binding Path=CheckOutChangeSet}" Header="Checked Out" Width="5*"/>
-                <DataGridTextColumn Binding="{Binding Path=CheckInChangeSet}" Header="Checked In" Width="5*"/>
+                <DataGridTextColumn Binding="{Binding Path=CheckInChangeSet}" Header="Checked In" Width="5*" SortDirection="Descending"/>
                 <DataGridTextColumn Binding="{Binding Path=DevBranch}" Header ="DevBranch" Width="5*"/>
                 <DataGridTextColumn Binding="{Binding Path=Comments}" Header ="Comments" Width="45*"/>
                 <DataGridTextColumn Binding="{Binding Path=Author}" Header="Author" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Button Grid.Row="1" Content="Okay test" Click="Button_Click" HorizontalAlignment="Left" Width="Auto"/>
+        <TextBlock Grid.Row="1">
+            <TextBox Name="txtIncidentNo" Width="100">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding GetIncident}" CommandParameter="{Binding ElementName=txtIncidentNo, Path=Text}"/>
+                </TextBox.InputBindings>
+            </TextBox>
+                     
+        </TextBlock>
+        
     </Grid>
 </Window>

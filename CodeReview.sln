@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFCodeReview", "FindString\TFCodeReview.csproj", "{CE245874-5045-4F7F-9728-5D93CD106AD4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFCodeReview", "CodeReview\TFCodeReview.csproj", "{CE245874-5045-4F7F-9728-5D93CD106AD4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
