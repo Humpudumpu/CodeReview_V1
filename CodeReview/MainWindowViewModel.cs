@@ -32,6 +32,9 @@ namespace CodeReview
 		private bool enableComboBox;
 
 		public string IncidentNo { get { return incidentNo; } set {	incidentNo = value;	} }
+		public uint IncidentAssociationCount { get { return incidentAssociationCount; } set { incidentAssociationCount = value; } }
+		private uint incidentAssociationCount;
+		
 		public MainWindowViewModel(CodeReview cr)
 		{
 			this.codeReview = cr;
