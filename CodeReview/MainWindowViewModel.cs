@@ -25,17 +25,42 @@ namespace CodeReview
 		public Command GetIncident { get { return getIncident; } }
 		private Command getIncident;
 
-		public MainWindowViewModel(CodeReview cr, Control invoker = null)
 		public string IncidentNo { get { return incidentNo; } set {	incidentNo = value;	} }
+		public MainWindowViewModel(CodeReview cr)
 		{
 			this.codeReview = cr;
-			this.invoker = invoker;
-			this.codeReview.PropertyChanged += codeReview_PropertyChanged;
+			this.codeReview.FileListUpdateEvent += codeReview_FileListUpdateEvent;
 			fileDiff = new Command(x => codeReview.GetFileDifference(x));
 			getIncident = new Command(x => codeReview.GetIncident(x.ToString()));
 		}
 
-		private void codeReview_PropertyChanged(object sender, PropertyChangedEventArgs e)
+
+
+		void codeReview_FileListUpdateEvent(object sender, EventArgs e)
+		{
+			if (codeReview.FileList.Count == 0)
+				ClearIncidentAssociationsList();
+			else
+				UpdateIncidentAssociationsList();
+			IncidentAssociationCount = Convert.ToUInt32(FileObjects.Count);
+			FirePropertyChanged("IncidentAssociationCount");
+			ComboEnabled(true);
+		}
+
+		private void UpdateIncidentAssociationsList()
+		{
+			foreach (FileObject ob in codeReview.FileList)
+				fileObjects.Add(ob);
+			if (!IncidentNoCollection.Contains(IncidentNo))
+				IncidentNoCollection.Add(IncidentNo);
+		}
+
+		private void ClearIncidentAssociationsList()
+		{
+			fileObjects.Clear();
+		}
+
+
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void FirePropertyChanged(string propertyName)
 		{

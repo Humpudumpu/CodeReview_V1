@@ -13,11 +13,18 @@ using System.Collections;
 
 namespace CodeReview
 {
+	public class CodeReview
 	{
+
 		private List<FileObject> fileList;
 		private TFUtility tf;
 
+		public event EventHandler FileListUpdateEvent;
+		protected virtual void OnFileListUpdatedEvent(EventArgs e)
 		{
+			var handler = FileListUpdateEvent;
+			if (handler != null)
+				handler(this, e);
 		}
 		public CodeReview()
 		{
@@ -36,6 +43,7 @@ namespace CodeReview
 		private void ClearFileList()
 		{
 			fileList.Clear();
+			OnFileListUpdatedEvent(EventArgs.Empty);
 		}
 
 		private void PopulateFileObjects(List<ITeamTrack.Association> associations)
@@ -47,6 +55,7 @@ namespace CodeReview
 			{
 				fileList.Add(new FileObject(association.file, "", association.logMessage, association.checkOutRevision, association.checkInRevision, association.author));
 			}
+			OnFileListUpdatedEvent(EventArgs.Empty);
 		}
 
 		public void GetFileDifference(object ob)
