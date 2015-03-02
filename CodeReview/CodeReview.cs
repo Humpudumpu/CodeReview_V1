@@ -33,10 +33,11 @@ namespace CodeReview
 
 		public List<FileObject> FileList { get { return fileList; } }
 
-		public void GetIncident(string incidentNo)
+		public void GetIncident(uint incidentNo)
 		{
 			ClearFileList();
-			PopulateFileObjects(tf.GetAssociations(incident));
+			//If the incident was found and there are associations, then the property 'FileList' will be posted;
+			PopulateFileObjects(tf.GetAssociations(incidentNo));
 		}
 
 		private void ClearFileList()
