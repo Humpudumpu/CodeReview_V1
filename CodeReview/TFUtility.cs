@@ -137,9 +137,11 @@ namespace CodeReview
 						fileChangesetList.Remove(fileChangesetList.Last());
 					}
 
+					//When the file change set list means we have not reached the changeset where the branching had began
 					if (fileChangesetList.Count > 0)
 						tfsIncidentBranchAssociations[i].checkOutRevision = fileChangesetList.Last().ToString();
 					else
+						//When we reach the end, blindly attached the changeset number from where the branch was created.
 						tfsIncidentBranchAssociations[i].checkOutRevision = mergedChangeSet[0].TargetChangeset.ChangesetId.ToString();
 				}
 				tfsWholeIncidentBranchAssociations.AddRange(tfsIncidentBranchAssociations);
@@ -164,8 +166,13 @@ namespace CodeReview
 				if (tf.StartInfo.RedirectStandardOutput)
 					standardOutput = tf.StandardOutput.ReadToEnd();
 
-				tf.WaitForExit(waitMinutes * 60 * 1000);
-				return tf.StartInfo.RedirectStandardOutput ? (T)(object)standardOutput : (T)(object)tf.ExitCode;
+				if (waitMinutes > 0)
+				{
+					tf.WaitForExit(waitMinutes * 60 * 1000);
+					return tf.StartInfo.RedirectStandardOutput ? (T)(object)standardOutput : (T)(object)tf.ExitCode;
+				}
+				else
+					return (T)(object)0;
 			}
 			finally { tf.Close(); }
 		}

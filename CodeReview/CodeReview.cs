@@ -95,7 +95,7 @@ namespace CodeReview
 			}
 
 			argument = String.Format("difference {0} /version:C{1}~C{2} /format:visual", association.Filename, association.CheckOutChangeSet, association.CheckInChangeSet);
-			tf.RunTF<int>(argument, false);
+			tf.RunTF<int>(argument, false, -1);
 		}
 	}
 }
