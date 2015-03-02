@@ -19,6 +19,9 @@ namespace CodeReview
 		public ObservableCollection<FileObject> FileObjects { get {return fileObjects;}}
 		private ObservableCollection<FileObject> fileObjects  = new ObservableCollection<FileObject>();
 
+		public ObservableCollection<string> IncidentNoCollection { get { return incidentNoCollection; } }
+		private ObservableCollection<string> incidentNoCollection = new ObservableCollection<string>();
+
 		public Command FileDiff { get { return fileDiff; } }
 		private Command fileDiff;
 
