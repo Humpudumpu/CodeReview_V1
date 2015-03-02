@@ -14,6 +14,8 @@ namespace CodeReview
 	{
 		private System.Windows.Forms.Control invoker;
 		private CodeReview codeReview;
+		private string incidentNo;
+
 		public ObservableCollection<FileObject> FileObjects { get {return fileObjects;}}
 		private ObservableCollection<FileObject> fileObjects  = new ObservableCollection<FileObject>();
 
@@ -24,6 +26,7 @@ namespace CodeReview
 		private Command getIncident;
 
 		public MainWindowViewModel(CodeReview cr, Control invoker = null)
+		public string IncidentNo { get { return incidentNo; } set {	incidentNo = value;	} }
 		{
 			this.codeReview = cr;
 			this.invoker = invoker;

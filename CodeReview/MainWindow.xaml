@@ -25,14 +25,27 @@
                 <DataGridTextColumn Binding="{Binding Path=Author}" Header="Author" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <TextBlock Grid.Row="1">
-            <TextBox Name="txtIncidentNo" Width="100">
-                <TextBox.InputBindings>
-                    <KeyBinding Key="Return" Command="{Binding GetIncident}" CommandParameter="{Binding ElementName=txtIncidentNo, Path=Text}"/>
-                </TextBox.InputBindings>
-            </TextBox>
-                     
-        </TextBlock>
-        
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20*"/>
+                <ColumnDefinition Width="50*"/>
+                <ColumnDefinition Width="30*"/>
+            </Grid.ColumnDefinitions>
+            <ComboBox Grid.Column="0" HorizontalAlignment="Left" 
+                      Name="cmbxIncidentNo" Width="150"
+                      Text="{Binding IncidentNo, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+                      ItemsSource="{Binding IncidentNoCollection, Mode=OneWay, UpdateSourceTrigger=Propertychanged}"
+                      IsEditable="True"
+                      IsReadOnly="False"
+                      IsEnabled="{Binding EnableComboBox, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                <ComboBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding GetIncident}"/>
+                </ComboBox.InputBindings>
+            </ComboBox>
+            <TextBlock Grid.Column="2" HorizontalAlignment="Right">
+            <Label Content="Association Count:"/>
+            <TextBox Text="{Binding IncidentAssociationCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsReadOnly="True"/>
+            </TextBlock>
+        </Grid>
     </Grid>
 </Window>

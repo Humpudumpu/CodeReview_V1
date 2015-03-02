@@ -91,7 +91,7 @@ namespace CodeReview
 
 				List<Changeset> history = service.QueryHistory(tfAssociation.file, RecursionType.Full).ToList<Changeset>();
 				//get the changeset ID where the main branch was branched to the incident branch
-				mergedChangeSet = service.QueryMerges(new ItemSpec(tfDevBranchPath, RecursionType.Full), VersionSpec.Latest, new ItemSpec(tfAssociation.file, RecursionType.None), VersionSpec.Latest, null, null);
+				mergedChangeSet = service.QueryMerges(new ItemSpec(tfDevBranchPath, RecursionType.None), VersionSpec.Latest, new ItemSpec(tfAssociation.file, RecursionType.None), VersionSpec.Latest, null, null);
 				//Now => Changeset all in the incident folder -> branch : 68103
 				foreach (Changeset cs in history)
 				{
