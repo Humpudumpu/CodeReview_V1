@@ -28,15 +28,30 @@ namespace CodeReview
 		public Command GetIncident { get { return getIncident; } }
 		private Command getIncident;
 
+		public bool EnableComboBox { get { return enableComboBox; } private set { enableComboBox = value; } }
+		private bool enableComboBox;
+
 		public string IncidentNo { get { return incidentNo; } set {	incidentNo = value;	} }
 		public MainWindowViewModel(CodeReview cr)
 		{
 			this.codeReview = cr;
 			this.codeReview.FileListUpdateEvent += codeReview_FileListUpdateEvent;
 			fileDiff = new Command(x => codeReview.GetFileDifference(x));
-			getIncident = new Command(x => codeReview.GetIncident(x.ToString()));
+			getIncident = new Command(x => this.GetIncidentAssociations());
+			ComboEnabled(true);
 		}
 
+		void GetIncidentAssociations()
+		{
+			ComboEnabled(false);
+			this.codeReview.GetIncident(Convert.ToUInt32(IncidentNo));
+		}
+
+		void ComboEnabled(bool enabled)
+		{
+			EnableComboBox = enabled;
+			FirePropertyChanged("ComboBoxEnable");
+		}
 
 
 		void codeReview_FileListUpdateEvent(object sender, EventArgs e)
