@@ -10,7 +10,7 @@ using System.Data;
 
 namespace CodeReview
 {
-	public class MainWindowViewModel
+	public class MainWindowViewModel: INotifyPropertyChanged
 	{
 		private System.Windows.Forms.Control invoker;
 		private CodeReview codeReview;
@@ -36,16 +36,12 @@ namespace CodeReview
 		}
 
 		private void codeReview_PropertyChanged(object sender, PropertyChangedEventArgs e)
+		public event PropertyChangedEventHandler PropertyChanged;
+		public void FirePropertyChanged(string propertyName)
 		{
-			if (e.PropertyName == "FileList")
-			{
-				foreach (FileObject ob in this.codeReview.FileList)
-					fileObjects.Add(ob);
-			}
-			else if (e.PropertyName == "FileList_Clear")
-			{
-				fileObjects.Clear();
-			}
+			var handle = PropertyChanged;
+			if (handle != null)
+				handle(this, new PropertyChangedEventArgs(propertyName));
 		}
 	}
 }

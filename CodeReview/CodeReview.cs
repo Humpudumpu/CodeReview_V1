@@ -13,20 +13,12 @@ using System.Collections;
 
 namespace CodeReview
 {
-	public class CodeReview : INotifyPropertyChanged
 	{
 		private List<FileObject> fileList;
 		private TFUtility tf;
 
-		public event PropertyChangedEventHandler PropertyChanged;
-
-		public void FirePropertyChanged(string propertyName)
 		{
-			var handle = PropertyChanged;
-			if (handle != null)
-				handle(this, new PropertyChangedEventArgs(propertyName));
 		}
-		
 		public CodeReview()
 		{
 			fileList = new List<FileObject>();
@@ -37,14 +29,6 @@ namespace CodeReview
 
 		public void GetIncident(string incidentNo)
 		{
-
-			uint incident = 0;
-
-			//Here we can update a status box in the gui
-			//assuming TextBox sends data as string
-			if (!uint.TryParse(incidentNo, out incident))
-				return;
-
 			ClearFileList();
 			PopulateFileObjects(tf.GetAssociations(incident));
 		}
@@ -52,7 +36,6 @@ namespace CodeReview
 		private void ClearFileList()
 		{
 			fileList.Clear();
-			FirePropertyChanged("FileList_Clear");
 		}
 
 		private void PopulateFileObjects(List<ITeamTrack.Association> associations)
@@ -64,7 +47,6 @@ namespace CodeReview
 			{
 				fileList.Add(new FileObject(association.file, "", association.logMessage, association.checkOutRevision, association.checkInRevision, association.author));
 			}
-			FirePropertyChanged("FileList");
 		}
 
 		public void GetFileDifference(object ob)
