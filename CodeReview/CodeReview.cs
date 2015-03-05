@@ -53,7 +53,8 @@ namespace CodeReview
 
 			foreach(ITeamTrack.Association association in associations)
 			{
-				fileList.Add(new FileObject(association.file, "", association.logMessage, association.checkOutRevision, association.checkInRevision, association.author));
+				if (!String.IsNullOrEmpty(association.checkOutRevision))
+					fileList.Add(new FileObject(association.file, "", association.logMessage, association.checkOutRevision, association.checkInRevision, association.author));
 			}
 			OnFileListUpdatedEvent(EventArgs.Empty);
 		}
