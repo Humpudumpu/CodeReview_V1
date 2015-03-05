@@ -46,6 +46,9 @@ namespace CodeReview
 
 		void GetIncidentAssociations()
 		{
+			uint result;
+			if (!UInt32.TryParse(IncidentNo, out result))
+				return;
 			ComboEnabled(false);
 			this.codeReview.GetIncident(Convert.ToUInt32(IncidentNo));
 		}
