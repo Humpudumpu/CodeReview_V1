@@ -14,6 +14,17 @@
               Name="IncidentDataGrid"
               HorizontalAlignment="Left"
               VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Extended">
+            <DataGrid.ContextMenu>
+                <ContextMenu>
+                    <ContextMenu.ItemContainerStyle>
+                        <Style TargetType="{x:Type MenuItem}">
+                            <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}"/>
+                        </Style>
+                    </ContextMenu.ItemContainerStyle>
+
+                    <MenuItem Header="Difference" Command="{Binding FileDiff}"/>
+                </ContextMenu>
+            </DataGrid.ContextMenu>
             <DataGrid.InputBindings>
                 <KeyBinding Key="d" Modifiers="Control" Command="{Binding FileDiff}" CommandParameter="{Binding ElementName=IncidentDataGrid, Path=SelectedItems}"/>
             </DataGrid.InputBindings>
