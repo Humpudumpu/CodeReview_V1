@@ -84,8 +84,11 @@ namespace CodeReview
 				//Now = > $/USCAN/CustomSet/Tradeshow/5.2/Incidents/68103
 				//Getting path of the dev branch
 				ItemSpec[] incidentBranch = new ItemSpec[] { new ItemSpec(tfAssociation.file, RecursionType.None) };
-				BranchHistoryTreeItem[][] branchHistoryTree = service.GetBranchHistory(incidentBranch, VersionSpec.Latest);
-				string tfDevBranchPath = branchHistoryTree[0][0].Relative.BranchToItem.ServerItem;
+				string releasePath = tfAssociation.file.Substring(0, tfAssociation.file.IndexOf("/Incidents"));
+				List<string>output = RunTF<string>(String.Format("dir {0} /version:T", releasePath), true).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+				string devSuffix = "dev";
+				releasePath = releasePath + output.SingleOrDefault<string>(x => x.Contains(devSuffix)).Replace("$","/");
+				string tfDevBranchPath = releasePath;
 
 				List<ITeamTrack.Association> tfsIncidentBranchAssociations = new List<ITeamTrack.Association>();
 
@@ -157,7 +160,8 @@ namespace CodeReview
 			tf.StartInfo.FileName = filename;
 			tf.StartInfo.Arguments = arguments;
 			tf.StartInfo.RedirectStandardOutput = redirectOutput;
-			tf.StartInfo.CreateNoWindow = false;
+			tf.StartInfo.CreateNoWindow = true;
+			tf.StartInfo.UseShellExecute = false;
 			tf.StartInfo.WindowStyle = ProcessWindowStyle.Hidden;
 
 			try
