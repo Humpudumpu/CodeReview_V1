@@ -27,8 +27,16 @@ namespace CodeReview
 
 		public Command SetSelectedFont { get { return setSelectedFont; } }
 		private Command setSelectedFont;
+
+		public Command SetFontSize { get { return setFontSize; } }
+		private Command setFontSize;
+
 		private string fontName;
 		public string FontName { get { return fontName; } set { fontName = value; } }
+
+		private int fontSize;
+		public int FontSize { get { return fontSize; } set { fontSize = value; } }
+
 		public Command FileDiff { get { return fileDiff; } }
 		private Command fileDiff;
 
@@ -49,7 +57,9 @@ namespace CodeReview
 			fileDiff = new Command(x => codeReview.GetFileDifference(x));
 			getIncident = new Command(x => this.GetIncidentAssociations());
 			setSelectedFont = new Command(x => this.SetApplicationFont(x));
+			setFontSize = new Command(x => this.SetApplicationFontSize(x));
 			fontName = "Courier New";
+			fontSize = 12;
 			ComboEnabled(true);
 			GetSupportedFonts();
 		}
@@ -58,6 +68,30 @@ namespace CodeReview
 		{
 			FontName = fontName.ToString();
 			FirePropertyChanged("FontName");
+		}
+
+		void SetApplicationFontSize(object fontSize)
+		{
+			FontSize = Int32.Parse(fontSize.ToString());
+			FirePropertyChanged("FontSize");
+		}
+
+		public void IncreaseFontSize()
+		{
+			if (FontSize < 25)
+			{
+				FontSize = FontSize + 1;
+				FirePropertyChanged("FontSize");
+			}
+		}
+
+		public void DecreaseFontSize()
+		{
+			if (FontSize > 10)
+			{
+				FontSize = FontSize - 1;
+				FirePropertyChanged("FontSize");
+			}
 		}
 
 		void GetSupportedFonts()

@@ -27,8 +27,20 @@ namespace CodeReview
 		public MainWindow()
 		{
 			InitializeComponent();
-
 			InitializeView();
+			this.MouseWheel +=MainWindow_MouseWheel;
+		}
+
+		void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
+		{
+			if((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Delta > 0 )
+			{
+				this.viewModel.IncreaseFontSize();
+			}
+			else if ((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Delta < 0)
+			{
+				this.viewModel.DecreaseFontSize();
+			}
 		}
 
 		private void InitializeView()
