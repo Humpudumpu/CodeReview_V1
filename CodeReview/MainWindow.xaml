@@ -33,7 +33,13 @@
                 <DataGridTextColumn Binding="{Binding Path=CheckOutChangeSet}" Header="Checked Out" Width="5*"/>
                 <DataGridTextColumn Binding="{Binding Path=CheckInChangeSet}" Header="Checked In" Width="5*" SortDirection="Descending"/>
                 <DataGridTextColumn Binding="{Binding Path=DevBranch}" Header ="DevBranch" Width="5*"/>
-                <DataGridTextColumn Binding="{Binding Path=Comments}" Header ="Comments" Width="45*"/>
+                <DataGridTextColumn Binding="{Binding Path=Comments}" Header ="Comments" Width="45*">
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
+                </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding Path=Author}" Header="Author" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
