@@ -6,6 +6,7 @@
         WindowStyle="SingleBorderWindow"
         Icon="icon_code_check.ico">
     <Grid>
+        FontFamily="{Binding FontName}"
         <Grid.RowDefinitions>
             <RowDefinition Height="95*"/>
             <RowDefinition Height="5*"/>
@@ -43,11 +44,13 @@
                 <DataGridTextColumn Binding="{Binding Path=Author}" Header="Author" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1">
+        <Grid Grid.Row="1" Margin="0,0,0,10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*"/>
-                <ColumnDefinition Width="50*"/>
-                <ColumnDefinition Width="30*"/>
+                <ColumnDefinition Width="40*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="10*"/>
+                <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
             <ComboBox Grid.Column="0" HorizontalAlignment="Left" 
                       Name="cmbxIncidentNo" Width="150"
@@ -63,6 +66,13 @@
             <TextBlock Grid.Column="2" HorizontalAlignment="Right">
             <Label Content="Association Count:"/>
             <TextBox Text="{Binding IncidentAssociationCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsReadOnly="True"/>
+            <ComboBox Grid.Column="2" HorizontalAlignment="Right" Width="{Binding Path=Width, RelativeSource={RelativeSource Self}}" MinWidth="100"
+                      IsEditable="False" IsReadOnly="True" Name="cmbxFontFamily" ItemsSource="{Binding FontFamilyCollection}"
+                      Text="{Binding FontName, Mode=OneWay}">
+                    <ComboBox.InputBindings>
+                        <KeyBinding Key="Return" Command="{Binding SetSelectedFont}" CommandParameter="{Binding ElementName=cmbxFontFamily,Path=SelectedItem}"/>
+                    </ComboBox.InputBindings>
+                </ComboBox>
             </TextBlock>
         </Grid>
     </Grid>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Windows.Forms;
+using System.Drawing;
 using System.Data;
 
 namespace CodeReview
@@ -21,6 +22,13 @@ namespace CodeReview
 		public ObservableCollection<string> IncidentNoCollection { get { return incidentNoCollection; } }
 		private ObservableCollection<string> incidentNoCollection = new ObservableCollection<string>();
 
+		public ObservableCollection<string> FontFamilyCollection { get { return fontFamilyCollection; } }
+		private ObservableCollection<string> fontFamilyCollection = new ObservableCollection<string>();
+
+		public Command SetSelectedFont { get { return setSelectedFont; } }
+		private Command setSelectedFont;
+		private string fontName;
+		public string FontName { get { return fontName; } set { fontName = value; } }
 		public Command FileDiff { get { return fileDiff; } }
 		private Command fileDiff;
 
@@ -40,7 +48,22 @@ namespace CodeReview
 			this.codeReview.FileListUpdateEvent += codeReview_FileListUpdateEvent;
 			fileDiff = new Command(x => codeReview.GetFileDifference(x));
 			getIncident = new Command(x => this.GetIncidentAssociations());
+			setSelectedFont = new Command(x => this.SetApplicationFont(x));
+			fontName = "Courier New";
 			ComboEnabled(true);
+			GetSupportedFonts();
+		}
+
+		void SetApplicationFont(object fontName)
+		{
+			FontName = fontName.ToString();
+			FirePropertyChanged("FontName");
+		}
+
+		void GetSupportedFonts()
+		{
+			foreach (FontFamily f in FontFamily.Families)
+				fontFamilyCollection.Add(f.Name);
 		}
 
 		void GetIncidentAssociations()
