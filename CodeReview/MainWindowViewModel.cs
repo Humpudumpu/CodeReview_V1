@@ -12,7 +12,6 @@ namespace CodeReview
 {
 	public class MainWindowViewModel: INotifyPropertyChanged
 	{
-		private System.Windows.Forms.Control invoker;
 		private CodeReview codeReview;
 		private string incidentNo;
 
