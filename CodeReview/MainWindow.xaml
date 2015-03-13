@@ -5,17 +5,16 @@
         WindowState="Maximized"
         WindowStyle="SingleBorderWindow"
         Icon="icon_code_check.ico"
-        FontFamily="{Binding FontName}"
         FontSize="{Binding FontSize}">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="95*"/>
-            <RowDefinition Height="5*"/>
+            <RowDefinition Height="90*"/>
+            <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
         <DataGrid Grid.Row="0" AutoGenerateColumns="false"
               Name="IncidentDataGrid"
               HorizontalAlignment="Left"
-              VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Extended">
+              VerticalAlignment="Top" CanUserAddRows="False" IsReadOnly="True" SelectionMode="Extended" FontFamily="{Binding FontName}">
             <DataGrid.ContextMenu>
                 <ContextMenu>
                     <ContextMenu.ItemContainerStyle>
@@ -23,7 +22,6 @@
                             <Setter Property="CommandParameter" Value="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ContextMenu}}, Path=PlacementTarget.SelectedItems}"/>
                         </Style>
                     </ContextMenu.ItemContainerStyle>
-
                     <MenuItem Header="Difference" Command="{Binding FileDiff}"/>
                 </ContextMenu>
             </DataGrid.ContextMenu>
@@ -45,7 +43,7 @@
                 <DataGridTextColumn Binding="{Binding Path=Author}" Header="Author" Width="10*"/>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1" Margin="0,0,0,10">
+        <Grid Grid.Row="1" Margin="0,0,0,2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="20*"/>
                 <ColumnDefinition Width="40*"/>
@@ -54,32 +52,32 @@
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
             <!-- MinWidth="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" -->
-            <ComboBox Grid.Column="0" HorizontalAlignment="Left" 
+            <ComboBox Grid.Column="0" HorizontalAlignment="Left" FontFamily="{Binding FontName}"
                       Name="cmbxIncidentNo" Width="150"
                       Text="{Binding IncidentNo, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
                       ItemsSource="{Binding IncidentNoCollection, Mode=OneWay, UpdateSourceTrigger=Propertychanged}"
                       IsEditable="True"
                       IsReadOnly="False"
-                      IsEnabled="{Binding EnableComboBox, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}">
+                      IsEnabled="{Binding EnableComboBox, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="0,0,0,30">
                 <ComboBox.InputBindings>
                     <KeyBinding Key="Return" Command="{Binding GetIncident}"/>
                 </ComboBox.InputBindings>
             </ComboBox>
             <ComboBox Grid.Column="2" HorizontalAlignment="Right" Width="{Binding Path=Width, RelativeSource={RelativeSource Self}}" MinWidth="100"
                       IsEditable="False" IsReadOnly="True" Name="cmbxFontFamily" ItemsSource="{Binding FontFamilyCollection}"
-                      Text="{Binding FontName, Mode=OneWay}">
-                    <ComboBox.InputBindings>
-                        <KeyBinding Key="Return" Command="{Binding SetSelectedFont}" CommandParameter="{Binding ElementName=cmbxFontFamily,Path=SelectedItem}"/>
-                    </ComboBox.InputBindings>
-                </ComboBox>
-            <TextBlock Grid.Column="3" MinWidth="20" Width="{Binding Path=Width, RelativeSource={RelativeSource Self}}">
+                      Text="{Binding FontName, Mode=OneWay}" Margin="0,0,0,30">
+                <ComboBox.InputBindings>
+                    <KeyBinding Key="Return" Command="{Binding SetSelectedFont}" CommandParameter="{Binding ElementName=cmbxFontFamily,Path=SelectedItem}"/>
+                </ComboBox.InputBindings>
+            </ComboBox>
+            <TextBlock Grid.Column="3" MinWidth="20" Width="{Binding Path=Width, RelativeSource={RelativeSource Self}}" Margin="0,0,0,30" FontFamily="{Binding FontName}">
                     <Label Content="Size :"/>
                     <TextBox Name="txtFontSize" Text="{Binding FontSize, Mode=TwoWay}" Height="{Binding ElementName=Self, Path=FontSize, Mode=OneWay}"/>
                 <TextBlock.InputBindings>
                     <KeyBinding Key="Return" Command="{Binding SetFontSize}" CommandParameter="{Binding ElementName=txtFontSize, Path=Text}"/>
                 </TextBlock.InputBindings>
             </TextBlock>
-            <TextBlock Grid.Column="4" HorizontalAlignment="Right">
+            <TextBlock Grid.Column="4" HorizontalAlignment="Right" Margin="0,0,0,30" FontFamily="{Binding FontName}">
                 <Label Content="Association Count:"/>
                 <TextBox Text="{Binding IncidentAssociationCount, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" IsReadOnly="True"/>
             </TextBlock>
