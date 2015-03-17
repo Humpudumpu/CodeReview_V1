@@ -29,7 +29,7 @@ namespace CodeReview
 		
 		public TFUtility()
 		{
-			filename = Path.Combine(Environment.GetEnvironmentVariable("VS110COMNTOOLS").Replace("Tools","IDE"), "tf.exe");
+			filename = Path.Combine(Environment.GetEnvironmentVariable("VS110COMNTOOLS").Replace("Tools", "IDE"), "tf.exe");
 			teamTrack = new TeamTrack();
 			LoggedIn = false;
 		}
@@ -100,6 +100,9 @@ namespace CodeReview
 				List<string>output = RunTF<string>(String.Format("dir {0} /version:T", releasePath), true).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
 				
 				string devSuffix = "dev";
+
+				//TODO:: Required to put devBranchName to 'devBranch' member in "FileObject" class.
+				string devBranchName = output.SingleOrDefault<string>(x => x.Contains(devSuffix)).Replace("$", "").Replace("dev", "");
 				releasePath = releasePath + output.SingleOrDefault<string>(x => x.Contains(devSuffix)).Replace("$","/");
 				string tfDevBranchPath = releasePath;
 
