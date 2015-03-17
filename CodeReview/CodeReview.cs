@@ -17,6 +17,7 @@ namespace CodeReview
 		private List<FileObject> fileList;
 		private TFUtility tf;
 
+		public List<FileObject> FileList { get { return fileList; } }
 		public delegate void StatusMessageUpdateHandler(object sender, string value);
 		public event StatusMessageUpdateHandler UpdateStatus = delegate { };
 		public event EventHandler FileListUpdateEvent;
@@ -33,7 +34,6 @@ namespace CodeReview
 			tf = new TFUtility();
 		}
 
-		public List<FileObject> FileList { get { return fileList; } }
 		void tf_UpdateStatusMessage(object sender, string value)
 		{
 			UpdateStatus(sender, value);
