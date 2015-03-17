@@ -17,6 +17,8 @@ namespace CodeReview
 		private string incidentNo;
 		private const int MAXINCIDENTHISTORY = 10;
 
+		private string IncidentTitle { get; set; }
+
 		public ObservableCollection<FileObject> FileObjects { get {return fileObjects;}}
 		private ObservableCollection<FileObject> fileObjects  = new ObservableCollection<FileObject>();
 
@@ -67,6 +69,9 @@ namespace CodeReview
 			fontSize = 12;
 			ComboEnabled(true);
 			GetSupportedFonts();
+			SetIncidentTitle();
+		}
+
 		void codeReview_UpdateStatus(object sender, string value)
 		{
 			StatusMessageList.Add(value);
@@ -135,6 +140,13 @@ namespace CodeReview
 			IncidentAssociationCount = Convert.ToUInt32(FileObjects.Count);
 			FirePropertyChanged("IncidentAssociationCount");
 			ComboEnabled(true);
+			SetIncidentTitle();
+		}
+
+		private void SetIncidentTitle()
+		{
+			IncidentTitle = codeReview.IncidentTitle;
+			FirePropertyChanged("IncidentTitle");
 		}
 
 		private void UpdateIncidentAssociationsList()

@@ -17,9 +17,13 @@ namespace CodeReview
 		private List<FileObject> fileList;
 		private TFUtility tf;
 
+
 		public List<FileObject> FileList { get { return fileList; } }
+		public string IncidentTitle { get; private set; }
+
 		public delegate void StatusMessageUpdateHandler(object sender, string value);
 		public event StatusMessageUpdateHandler UpdateStatus = delegate { };
+
 		public event EventHandler FileListUpdateEvent;
 		protected virtual void OnFileListUpdatedEvent(EventArgs e)
 		{
@@ -31,6 +35,7 @@ namespace CodeReview
 		public CodeReview()
 		{
 			fileList = new List<FileObject>();
+			IncidentTitle = "CodeReview";
 			tf = new TFUtility();
 			tf.UpdateStatusMessage += tf_UpdateStatusMessage;
 		}
@@ -42,9 +47,16 @@ namespace CodeReview
 
 		public void GetIncident(uint incidentNo)
 		{
-			ClearFileList();
+			ResetIncidentAssociation();
 			//If the incident was found and there are associations, then the property 'FileList' will be posted;
 			PopulateFileObjects(tf.GetAssociations(incidentNo));
+			IncidentTitle += tf.GetIncidentTitle(incidentNo);
+		}
+
+		private void ResetIncidentAssociation()
+		{
+			ClearFileList();
+			IncidentTitle = "CodeReview";
 		}
 
 		private void ClearFileList()

@@ -34,6 +34,11 @@ namespace CodeReview
 			LoggedIn = false;
 		}
 
+		public string GetIncidentTitle(uint incidentNo)
+		{ 
+			return (teamTrack.GetIncidentTitle(incidentNo.ToString()));
+		}
+
 		public List<ITeamTrack.Association> GetAssociations(uint incidentNo)
 		{
 			UpdateStatusMessage(this, "Logging into TeamTrack");
@@ -131,7 +136,6 @@ namespace CodeReview
 
 						tfsIncidentBranchAssociations.Add(association);
 					}
-
 				}
 
 				foreach (KeyValuePair<string, List<int>> x in tfsPerChangesetFileHistory)
