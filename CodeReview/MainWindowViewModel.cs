@@ -26,6 +26,9 @@ namespace CodeReview
 		public ObservableCollection<string> FontFamilyCollection { get { return fontFamilyCollection; } }
 		private ObservableCollection<string> fontFamilyCollection = new ObservableCollection<string>();
 
+		public ObservableCollection<string> StatusMessageList { get { return statusMessageList; } }
+		private ObservableCollection<string> statusMessageList = new ObservableCollection<string>();
+
 		public Command SetSelectedFont { get { return setSelectedFont; } }
 		private Command setSelectedFont;
 
@@ -50,11 +53,12 @@ namespace CodeReview
 		public string IncidentNo { get { return incidentNo; } set {	incidentNo = value;	} }
 		public uint IncidentAssociationCount { get { return incidentAssociationCount; } set { incidentAssociationCount = value; } }
 		private uint incidentAssociationCount;
-		
+
 		public MainWindowViewModel(CodeReview cr)
 		{
 			this.codeReview = cr;
 			this.codeReview.FileListUpdateEvent += codeReview_FileListUpdateEvent;
+			this.codeReview.UpdateStatus += codeReview_UpdateStatus;
 			fileDiff = new Command(x => codeReview.GetFileDifference(x));
 			getIncident = new Command(x => this.GetIncidentAssociations());
 			setSelectedFont = new Command(x => this.SetApplicationFont(x));
@@ -63,6 +67,10 @@ namespace CodeReview
 			fontSize = 12;
 			ComboEnabled(true);
 			GetSupportedFonts();
+		void codeReview_UpdateStatus(object sender, string value)
+		{
+			StatusMessageList.Add(value);
+			FirePropertyChanged("StatusMessageList");
 		}
 
 		void SetApplicationFont(object fontName)
@@ -103,6 +111,7 @@ namespace CodeReview
 
 		void GetIncidentAssociations()
 		{
+			StatusMessageList.Clear();
 			uint result;
 			if (!UInt32.TryParse(IncidentNo, out result))
 				return;

@@ -82,6 +82,7 @@
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
             <!-- MinWidth="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" -->
+            <ListBox Grid.Column="1" Name="scrlViewStatusMessages" ItemsSource="{Binding StatusMessageList, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" FontFamily="{Binding FontName}"/>
             <ComboBox Grid.Column="0" HorizontalAlignment="Left" FontFamily="{Binding FontName}"
                       Name="cmbxIncidentNo" Width="150"
                       Text="{Binding IncidentNo, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 

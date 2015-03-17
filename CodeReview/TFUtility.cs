@@ -19,12 +19,14 @@ namespace CodeReview
 		string filename = String.Empty;
 		const string user = "CAN10TFSBridgeSvc";
 		const string password = "Canadatfs.2012";
-		
 
+		public delegate void StatusMessageUpdateByTFUtil(object sender, string value);
+		public event StatusMessageUpdateByTFUtil UpdateStatusMessage = delegate { };
+		
 		//PCVSTools members
 		TeamTrack teamTrack;
 		bool LoggedIn { get; set; }
-
+		
 		public TFUtility()
 		{
 			filename = Path.Combine(Environment.GetEnvironmentVariable("VS110COMNTOOLS").Replace("Tools","IDE"), "tf.exe");
@@ -34,14 +36,17 @@ namespace CodeReview
 
 		public List<ITeamTrack.Association> GetAssociations(uint incidentNo)
 		{
+			UpdateStatusMessage(this, "Logging into TeamTrack");
 			
 			if (!LoggedIn)
 				LoggedIn = teamTrack.Login(user, password);
 
+			UpdateStatusMessage(this, "Getting incident associations");
 			List<ITeamTrack.Association> associations = teamTrack.GetAssociations(incidentNo);
 			//SBM does not make a one to one association of what was checked out and what was checkin. It only says what was checkedout.
 			//For code review to work - we need a one to one association = i.e what was checkout from devbranch, and what was finally merged to the devbranch.
 
+			UpdateStatusMessage(this, "Preparing association list to display");
 			associations.AddRange(RelateTFSAssociations(associations));
 
 			return associations;
@@ -49,6 +54,7 @@ namespace CodeReview
 
 		private List<ITeamTrack.Association> RelateTFSAssociations(List<ITeamTrack.Association> associations)
 		{
+			UpdateStatusMessage(this, "Connecting to TFS to create changeset relations");
 			List<ITeamTrack.Association> tfsWholeIncidentBranchAssociations = new List<ITeamTrack.Association>();
 
 			TfsTeamProjectCollection tfs = new TfsTeamProjectCollection(new Uri(@"http://can10tfsprd1:8080/tfs/can10tpc4"));
@@ -85,7 +91,9 @@ namespace CodeReview
 				//Getting path of the dev branch
 				ItemSpec[] incidentBranch = new ItemSpec[] { new ItemSpec(tfAssociation.file, RecursionType.None) };
 				string releasePath = tfAssociation.file.Substring(0, tfAssociation.file.IndexOf("/Incidents"));
+				
 				List<string>output = RunTF<string>(String.Format("dir {0} /version:T", releasePath), true).Split(new string[] { "\r\n" }, StringSplitOptions.RemoveEmptyEntries).ToList<string>();
+				
 				string devSuffix = "dev";
 				releasePath = releasePath + output.SingleOrDefault<string>(x => x.Contains(devSuffix)).Replace("$","/");
 				string tfDevBranchPath = releasePath;
@@ -155,6 +163,7 @@ namespace CodeReview
 
 		public T RunTF<T>(string arguments, bool redirectOutput = false, int waitMinutes = 2)
 		{
+			UpdateStatusMessage(this, "Start running Tf.exe");
 			string standardOutput = String.Empty;
 			Process tf = new Process();
 			tf.StartInfo.FileName = filename;
@@ -178,7 +187,11 @@ namespace CodeReview
 				else
 					return (T)(object)0;
 			}
-			finally { tf.Close(); }
+			finally 
+			{ 
+				tf.Close();
+				UpdateStatusMessage(this, "Completed running Tf.exe");
+			}
 		}
 	}
 }
