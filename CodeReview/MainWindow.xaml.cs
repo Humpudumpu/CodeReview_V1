@@ -23,6 +23,7 @@ namespace CodeReview
 	{
 		private MainWindowViewModel viewModel;
 		public CodeReview cr;
+		public ListCollectionView collectionView;
 
 		public MainWindow()
 		{
@@ -31,6 +32,8 @@ namespace CodeReview
 			this.MouseWheel +=MainWindow_MouseWheel;
 		}
 
+
+		//Bad code. Doesnt do with the MVVM model.
 		void MainWindow_MouseWheel(object sender, MouseWheelEventArgs e)
 		{
 			if((Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)) && e.Delta > 0 )
@@ -48,7 +51,16 @@ namespace CodeReview
 			cr = new CodeReview();
 			this.viewModel = new MainWindowViewModel(cr);
 			this.DataContext = this.viewModel;
-			this.IncidentDataGrid.ItemsSource = this.viewModel.FileObjects;
+			this.collectionView = new ListCollectionView(this.viewModel.FileObjects);
+			this.IncidentDataGrid.ItemsSource = this.collectionView;
+		}
+
+		private void MenuItem_Click(object sender, RoutedEventArgs e)
+		{
+			MenuItem mI = e.Source as MenuItem;
+			if (collectionView.GroupDescriptions.Count > 0)
+				collectionView.GroupDescriptions.Clear();
+			collectionView.GroupDescriptions.Add(new PropertyGroupDescription(mI.Name));
 		}
 	}
 
