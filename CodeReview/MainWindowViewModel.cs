@@ -15,6 +15,7 @@ namespace CodeReview
 	{
 		private CodeReview codeReview;
 		private string incidentNo;
+		private const int MAXINCIDENTHISTORY = 10;
 
 		public ObservableCollection<FileObject> FileObjects { get {return fileObjects;}}
 		private ObservableCollection<FileObject> fileObjects  = new ObservableCollection<FileObject>();
@@ -133,13 +134,14 @@ namespace CodeReview
 				fileObjects.Add(ob);
 			if (!IncidentNoCollection.Contains(IncidentNo))
 				IncidentNoCollection.Add(IncidentNo);
+			if (IncidentNoCollection.Count > MAXINCIDENTHISTORY)
+				IncidentNoCollection.Remove(IncidentNoCollection.First().ToString());
 		}
 
 		private void ClearIncidentAssociationsList()
 		{
 			fileObjects.Clear();
 		}
-
 
 		public event PropertyChangedEventHandler PropertyChanged;
 		public void FirePropertyChanged(string propertyName)
