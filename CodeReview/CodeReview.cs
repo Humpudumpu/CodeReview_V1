@@ -32,6 +32,7 @@ namespace CodeReview
 		{
 			fileList = new List<FileObject>();
 			tf = new TFUtility();
+			tf.UpdateStatusMessage += tf_UpdateStatusMessage;
 		}
 
 		void tf_UpdateStatusMessage(object sender, string value)
@@ -67,6 +68,7 @@ namespace CodeReview
 
 		public void GetFileDifference(object ob)
 		{
+			UpdateStatus(this, "Getting file difference from TFS");
 			List<FileObject> associations = ((IEnumerable)ob).Cast<FileObject>().ToList();
 			string argument = String.Empty;
 			FileObject association = new FileObject();
@@ -94,6 +96,7 @@ namespace CodeReview
 
 			argument = String.Format("difference {0} /version:C{1}~C{2} /format:visual", association.Filename, association.CheckOutChangeSet, association.CheckInChangeSet);
 			tf.RunTF<int>(argument, false, -1);
+			UpdateStatus(this, "Completed getting file difference from TFS");
 		}
 	}
 }
