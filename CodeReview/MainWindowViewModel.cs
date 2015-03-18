@@ -14,10 +14,14 @@ namespace CodeReview
 	public class MainWindowViewModel: INotifyPropertyChanged
 	{
 		private CodeReview codeReview;
-		private string incidentNo;
+		
 		private const int MAXINCIDENTHISTORY = 10;
 
-		private string IncidentTitle { get; set; }
+		public string IncidentTitle { get { return incidentTitle; } set { incidentTitle = value; } }
+		private string incidentTitle;
+
+		public string IncidentURL { get { return incidentURL; } set { incidentURL = value; } }
+		private string incidentURL;
 
 		public ObservableCollection<FileObject> FileObjects { get {return fileObjects;}}
 		private ObservableCollection<FileObject> fileObjects  = new ObservableCollection<FileObject>();
@@ -31,17 +35,23 @@ namespace CodeReview
 		public ObservableCollection<string> StatusMessageList { get { return statusMessageList; } }
 		private ObservableCollection<string> statusMessageList = new ObservableCollection<string>();
 
+		public string FontName { get { return fontName; } set { fontName = value; } }
+		private string fontName;
+
+		public int FontSize { get { return fontSize; } set { fontSize = value; } }
+		private int fontSize;
+
+		public string IncidentNo { get { return incidentNo; } set { incidentNo = value; } }
+		private string incidentNo;
+		
+		public uint IncidentAssociationCount { get { return incidentAssociationCount; } set { incidentAssociationCount = value; } }
+		private uint incidentAssociationCount;
+
 		public Command SetSelectedFont { get { return setSelectedFont; } }
 		private Command setSelectedFont;
 
 		public Command SetFontSize { get { return setFontSize; } }
 		private Command setFontSize;
-
-		private string fontName;
-		public string FontName { get { return fontName; } set { fontName = value; } }
-
-		private int fontSize;
-		public int FontSize { get { return fontSize; } set { fontSize = value; } }
 
 		public Command FileDiff { get { return fileDiff; } }
 		private Command fileDiff;
@@ -49,12 +59,11 @@ namespace CodeReview
 		public Command GetIncident { get { return getIncident; } }
 		private Command getIncident;
 
+		public Command OpenIncidentURL { get { return openIncidentURL; } }
+		private Command openIncidentURL;
+
 		public bool EnableComboBox { get { return enableComboBox; } private set { enableComboBox = value; } }
 		private bool enableComboBox;
-
-		public string IncidentNo { get { return incidentNo; } set {	incidentNo = value;	} }
-		public uint IncidentAssociationCount { get { return incidentAssociationCount; } set { incidentAssociationCount = value; } }
-		private uint incidentAssociationCount;
 
 		public MainWindowViewModel(CodeReview cr)
 		{
@@ -65,17 +74,25 @@ namespace CodeReview
 			getIncident = new Command(x => this.GetIncidentAssociations());
 			setSelectedFont = new Command(x => this.SetApplicationFont(x));
 			setFontSize = new Command(x => this.SetApplicationFontSize(x));
+			openIncidentURL = new Command(x => this.OpenIncidentURLInBrowser(x.ToString()));
 			fontName = "Courier New";
 			fontSize = 12;
+			IncidentURL = String.Empty;
+			IncidentTitle = String.Empty;
 			ComboEnabled(true);
 			GetSupportedFonts();
 			SetIncidentTitle();
 		}
 
+		void OpenIncidentURLInBrowser(string url)
+		{
+			if (!String.IsNullOrEmpty(url))
+				System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo(url));
+		}
+
 		void codeReview_UpdateStatus(object sender, string value)
 		{
 			StatusMessageList.Add(value);
-			FirePropertyChanged("StatusMessageList");
 		}
 
 		void SetApplicationFont(object fontName)
@@ -117,6 +134,7 @@ namespace CodeReview
 		void GetIncidentAssociations()
 		{
 			StatusMessageList.Clear();
+			IncidentURL = String.Empty;
 			uint result;
 			if (!UInt32.TryParse(IncidentNo, out result))
 				return;
@@ -141,12 +159,19 @@ namespace CodeReview
 			FirePropertyChanged("IncidentAssociationCount");
 			ComboEnabled(true);
 			SetIncidentTitle();
+			SetIncidentURL();
 		}
 
 		private void SetIncidentTitle()
 		{
 			IncidentTitle = codeReview.IncidentTitle;
 			FirePropertyChanged("IncidentTitle");
+		}
+
+		private void SetIncidentURL()
+		{
+			IncidentURL = codeReview.IncidentURL;
+			FirePropertyChanged("IncidentURL");
 		}
 
 		private void UpdateIncidentAssociationsList()

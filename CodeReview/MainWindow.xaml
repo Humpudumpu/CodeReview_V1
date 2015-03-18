@@ -84,11 +84,20 @@
                 <ColumnDefinition Width="20*"/>
             </Grid.ColumnDefinitions>
             <!-- MinWidth="{Binding Width, RelativeSource={RelativeSource AncestorType={x:Type Grid}}}" -->
-            <ListBox Grid.Column="1" Name="scrlViewStatusMessages" ItemsSource="{Binding StatusMessageList, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" FontFamily="{Binding FontName}"/>
-            <ComboBox Grid.Column="0" HorizontalAlignment="Left" FontFamily="{Binding FontName}"
-                      Name="cmbxIncidentNo" Width="150"
-                      Text="{Binding IncidentNo, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}" 
+            <ListBox Grid.Column="1" Name="scrlViewStatusMessages" ItemsSource="{Binding StatusMessageList, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" FontFamily="{Binding ElementName=cmbxFontFamily, Path=SelectedItem}"/>
+            <StackPanel Orientation="Horizontal">
+                <TextBlock>
+                    <Hyperlink Name="IncidentURLLink" NavigateUri="{Binding IncidentURL, Mode=OneWay, UpdateSourceTrigger=PropertyChanged}" Command="{Binding OpenIncidentURL}" CommandParameter="{Binding ElementName=IncidentURLLink, Path=NavigateUri}">
+                        <Label Content="Case ID :"/>
+                    </Hyperlink> 
+                </TextBlock>
+                <ComboBox Grid.Column="0" HorizontalAlignment="Left" FontFamily="{Binding ElementName=cmbxFontFamily, Path=SelectedItem}"
+                      Name="cmbxIncidentNo" 
+                      MinWidth="200"
+                      Width="{Binding Path=ColumnDefinition[0].Width, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type Grid},AncestorLevel=1}}"
                       ItemsSource="{Binding IncidentNoCollection, Mode=OneWay, UpdateSourceTrigger=Propertychanged}"
+                      Text="{Binding IncidentNo, UpdateSourceTrigger=PropertyChanged, Mode=OneWayToSource}"
+                      FontSize="{Binding FontSize}"
                       IsEditable="True"
                       IsReadOnly="False"
                       IsEnabled="{Binding EnableComboBox, UpdateSourceTrigger=PropertyChanged, Mode=OneWay}" Margin="0,0,0,30">
@@ -96,6 +105,7 @@
                     <KeyBinding Key="Return" Command="{Binding GetIncident}"/>
                 </ComboBox.InputBindings>
             </ComboBox>
+            </StackPanel>
             <ComboBox Grid.Column="2" HorizontalAlignment="Right" Width="{Binding Path=Width, RelativeSource={RelativeSource Self}}" MinWidth="100"
                       IsEditable="False" IsReadOnly="True" Name="cmbxFontFamily" ItemsSource="{Binding FontFamilyCollection}"
                       Text="{Binding FontName, Mode=OneWay}" Margin="0,0,0,30">

@@ -20,6 +20,8 @@ namespace CodeReview
 		const string user = "CAN10TFSBridgeSvc";
 		const string password = "Canadatfs.2012";
 
+		public string incidentTitle;
+		public string incidentURL;
 		public delegate void StatusMessageUpdateByTFUtil(object sender, string value);
 		public event StatusMessageUpdateByTFUtil UpdateStatusMessage = delegate { };
 		
@@ -42,7 +44,7 @@ namespace CodeReview
 		public List<ITeamTrack.Association> GetAssociations(uint incidentNo)
 		{
 			UpdateStatusMessage(this, "Logging into TeamTrack");
-			
+
 			if (!LoggedIn)
 				LoggedIn = teamTrack.Login(user, password);
 
@@ -50,6 +52,8 @@ namespace CodeReview
 			List<ITeamTrack.Association> associations = teamTrack.GetAssociations(incidentNo);
 			//SBM does not make a one to one association of what was checked out and what was checkin. It only says what was checkedout.
 			//For code review to work - we need a one to one association = i.e what was checkout from devbranch, and what was finally merged to the devbranch.
+			incidentTitle = teamTrack.GetIncidentTitle(incidentNo.ToString());
+			incidentURL = teamTrack.GetIncidentURL(incidentNo);
 
 			UpdateStatusMessage(this, "Preparing association list to display");
 			associations.AddRange(RelateTFSAssociations(associations));

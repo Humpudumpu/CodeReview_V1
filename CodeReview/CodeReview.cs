@@ -19,7 +19,10 @@ namespace CodeReview
 
 
 		public List<FileObject> FileList { get { return fileList; } }
-		public string IncidentTitle { get; private set; }
+		public string IncidentTitle { get { return incidentTitle; } set { incidentTitle = value; } }
+		private string incidentTitle;
+		public string IncidentURL { get { return incidentURL; } set { incidentURL = value; } }
+		private string incidentURL;
 
 		public delegate void StatusMessageUpdateHandler(object sender, string value);
 		public event StatusMessageUpdateHandler UpdateStatus = delegate { };
@@ -35,9 +38,10 @@ namespace CodeReview
 		public CodeReview()
 		{
 			fileList = new List<FileObject>();
-			IncidentTitle = "CodeReview";
+			IncidentTitle = "CodeReview :";
 			tf = new TFUtility();
 			tf.UpdateStatusMessage += tf_UpdateStatusMessage;
+			IncidentURL = String.Empty;
 		}
 
 		void tf_UpdateStatusMessage(object sender, string value)
@@ -50,7 +54,6 @@ namespace CodeReview
 			ResetIncidentAssociation();
 			//If the incident was found and there are associations, then the property 'FileList' will be posted;
 			PopulateFileObjects(tf.GetAssociations(incidentNo));
-			IncidentTitle += tf.GetIncidentTitle(incidentNo);
 		}
 
 		private void ResetIncidentAssociation()
@@ -75,6 +78,8 @@ namespace CodeReview
 				if (!String.IsNullOrEmpty(association.checkOutRevision))
 					fileList.Add(new FileObject(association.file, "", association.logMessage, association.checkOutRevision, association.checkInRevision, association.author));
 			}
+			this.IncidentTitle += tf.incidentTitle;
+			this.IncidentURL = tf.incidentURL;
 			OnFileListUpdatedEvent(EventArgs.Empty);
 		}
 
