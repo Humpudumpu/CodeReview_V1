@@ -1,0 +1,20 @@
+﻿<Window x:Class="CodeReview.ReviewNotes"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="ReviewNotes" Height="500" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="90*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0">
+            <Label Content="Note Title :"/>
+            <TextBox Text="{Binding reviewNoteTitle, Mode=OneWayToSource}"/>
+        </TextBlock>
+        <TextBlock Grid.Row="1">
+            <TextBox Text="{Binding reviewNotes, Mode=OneWayToSource}" Width="{Binding Path=ActualWidth,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}" 
+                     Height="{Binding Path=ActualHeight,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType={x:Type Window}}}" AcceptsReturn="True"/>
+        </TextBlock>
+
+    </Grid>
+</Window>
